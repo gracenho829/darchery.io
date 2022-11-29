@@ -257,7 +257,7 @@ def run_whack():
                 else:
                     round += 1
                     time.sleep(0.01)
-                    run_gradient()
+                    my_stick.set_single_LED_color(round, 255, 0, 0)
                     time.sleep(0.01)
                     #round = 0
 
@@ -268,7 +268,7 @@ def run_whack():
                 # client.publish(topic, val)
                 if round < 2:
                     time.sleep(0.01)
-                    my_stick.set_all_LED_unique_color(round, 255, 0, 0)
+                    run_gradient()
                     time.sleep(0.01)
                 time.sleep(0.02)
                 
