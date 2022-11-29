@@ -20,6 +20,46 @@ round = 0
 correct = 0
 wrong = 0
 
+def color_gradient(LED_stick, r1, b1, g1, r2, g2, b2, LED_length):
+    # Subtract 1 from LED_length because there is one less transition color
+    # than length of LEDs
+    LED_length = LED_length - 1
+    # Calculate the slope of the line between r/g/b1 and r/g/b2
+    r_slope = (r2 - r1) / LED_length
+    g_slope = (g2 - g1) / LED_length
+    b_slope = (b2 - b1) / LED_length
+    # Set the color for each pixel on your LED Stick
+    for i in range(0, LED_length):
+        # Evaluate the ith point on the line between r/g/b1 and r/g/b2
+        r_value = r1 + r_slope * i
+        g_value = g1 + g_slope * i
+        b_value = b1 + b_slope * i
+        # Set the pixel to the calculated color
+        LED_stick.set_single_LED_color(i + 1, r_value, g_value, b_value)
+
+def run_gradient():
+
+    print("\nSparkFun Qwiic LED Stick Example 6")
+    my_stick = qwiic_led_stick.QwiicLEDStick()
+
+    if my_stick.begin() == False:
+        print("\nThe Qwiic LED Stick isn't connected to the system. Please check your connection", \
+            file=sys.stderr)
+        return
+    print("\nLED Stick ready!")
+
+    # Set the colors for the gradient
+    # These are for the first color
+    r1 =238
+    g1 = 49
+    b1 = 36
+    # These are for the last color    
+    r2 = 66
+    g2 = 235
+    b2 = 23
+
+    color_gradient(my_stick, r1, g1, b1, r2, g2, b2, 10)
+
 # Fuction of rainbow effect
 def walking_rainbow(LED_stick, rainbow_length, LED_length, delay, value):
     red_array = [None] * LED_length
@@ -217,7 +257,7 @@ def run_whack():
                 else:
                     round += 1
                     time.sleep(0.01)
-                    my_stick.set_single_LED_color(round, 255, 0, 0)
+                    run_gradient()
                     time.sleep(0.01)
                     #round = 0
 
@@ -226,7 +266,12 @@ def run_whack():
                     #my_stick.LED_off()
                     
                 # client.publish(topic, val)
-            time.sleep(0.02)
+                if round < 2:
+                    time.sleep(0.01)
+                    my_stick.set_all_LED_unique_color(round, 255, 0, 0)
+                    time.sleep(0.01)
+                time.sleep(0.02)
+                
 
         #my_stick.LED_off()
         #time.sleep(0.1)
