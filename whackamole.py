@@ -112,7 +112,7 @@ def run_whack():
         #     print("Whack!")
         for i in range(4):
             if mpr121[i].value:
-                if i in out():
+                if i in out:
                     out.pop(out.index(i))
                     val = f"Mole {i} whacked!"
                     print(val)
