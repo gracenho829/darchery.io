@@ -20,71 +20,48 @@ round = 0
 correct = 0
 wrong = 0
 
-# Fuction of rainbow effect
-def walking_rainbow(LED_stick, rainbow_length, LED_length, delay):
-    red_array = [None] * LED_length
-    blue_array = [None] * LED_length
-    green_array = [None] * LED_length
+# Fuction of gradient effect
+def color_gradient(LED_stick, r1, b1, g1, r2, g2, b2, LED_length):
+    # Subtract 1 from LED_length because there is one less transition color
+    # than length of LEDs
+    # LED_length = LED_length - 1
+    # Calculate the slope of the line between r/g/b1 and r/g/b2
+    r_slope = (r2 - r1) / LED_length
+    g_slope = (g2 - g1) / LED_length
+    b_slope = (b2 - b1) / LED_length
+    # Set the color for each pixel on your LED Stick
+    for i in range(0, LED_length):
+        # Evaluate the ith point on the line between r/g/b1 and r/g/b2
+        r_value = r1 + r_slope * i
+        g_value = g1 + g_slope * i
+        b_value = b1 + b_slope * i
+        # Set the pixel to the calculated color
+        time.sleep(0.02)
+        LED_stick.set_single_LED_color(i + 1, int(r_value), int(g_value), int(b_value))
+        time.sleep(0.02)
 
-    global round,correct,wrong
+def run_gradient(my_stick):
 
-    for j in range(0, rainbow_length):
+    # print("\nSparkFun Qwiic LED Stick Example 6")
+    # my_stick = qwiic_led_stick.QwiicLEDStick()
 
-        for i in range(0, LED_length):
-            # There are n colors generated for the rainbow
-            # The value of n determins which color is generated at each pixel
-            n = i + 1 - j
+    # if my_stick.begin() == False:
+    #     print("\nThe Qwiic LED Stick isn't connected to the system. Please check your connection", \
+    #         file=sys.stderr)
+    #     return
+    # print("\nLED Stick ready!")
 
-            # Loop n so that it is always between 1 and rainbow_length
-            if n <= 0:
-                n = n + rainbow_length
+    # Set the colors for the gradient
+    # These are for the first color
+    r1 = random.randint(0, 255)
+    g1 = random.randint(0, 255)
+    b1 = random.randint(0, 255)
+    # These are for the last color    
+    r2 = random.randint(0, 255)
+    g2 = random.randint(0, 255)
+    b2 = random.randint(0, 255)
 
-            # The nth color is between red and yellow
-            if n <= math.floor(rainbow_length / 6):
-                red_array[i] = 255
-                green_array[i] = int(math.floor(6 * 255 / rainbow_length * n))
-                blue_array[i] = 0
-            
-            # The nth color is between yellow and green
-            elif n <= math.floor(rainbow_length / 3):
-                red_array[i] = int(math.floor(510 - 6 * 255 / rainbow_length * n))
-                green_array[i] = 255
-                blue_array[i] = 0
-            
-            # The nth color is between green and cyan
-            elif n <= math.floor(rainbow_length / 2):
-                red_array[i] = 0
-                green_array[i] = 255
-                blue_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 510))
-            
-            # The nth color is between blue and magenta
-            elif n <= math.floor(5 * rainbow_length / 6):
-                red_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 1020))
-                green_array[i] = 0
-                blue_array[i] = 255
-            
-            # The nth color is between magenta and red
-            else:
-                red_array[i] = 255
-                green_array[i] = 0
-                blue_array[i] = int(math.floor(1530 - (6 *255 / rainbow_length * n)))
-
-        # Set all the LEDs to the color values accordig to the arrays
-        LED_stick.set_all_LED_unique_color(red_array, green_array, blue_array, LED_length)
-
-        if value:  # just button A pressed Making correct
-            round += 1
-            correct += 2
-            print(correct)
-            time.sleep(0.1)
-
-        elif not value:  # just button B pressed Making wrong
-            round += 1
-            wrong += 1
-            print(wrong)
-            time.sleep(0.1)
-
-        time.sleep(delay)
+    color_gradient(my_stick, r1, g1, b1, r2, g2, b2, 10)
 
 def run_whack():
     # Configure Buttons
@@ -128,13 +105,12 @@ def run_whack():
             file=sys.stderr)
         return
     print("\nLED Stick ready!")
+    time.sleep(0.2)
     my_stick.set_all_LED_brightness(1)
+    time.sleep(0.2)
+    my_stick.LED_off()
+    time.sleep(0.2)
     global round,correct,wrong
-    red_array = [None] * LED_length
-    blue_array = [None] * LED_length
-    green_array = [None] * LED_length
-    rainbow_length = 20
-    LED_length = 10
 
     out = []
     brightness = 100
@@ -144,6 +120,7 @@ def run_whack():
     popTime = pushTime + random.randrange(1, 3.0)
     prev = -1
     while True:
+        time.sleep(0.02)
         # Generate next mole to pop up
         num = random.randint(0,4)
         while num == prev:
@@ -163,6 +140,8 @@ def run_whack():
         for x in out:
             arr[x] = 1
         
+        time.sleep(0.02)    # Don't hammer too hard on the I2C bus
+
         # Check if button 0 is pressed
         if 0 in out:
             # print("\nButton 0 is pressed!")
@@ -203,86 +182,48 @@ def run_whack():
         # if press in out:
         #     out.pop(out.index(press))
         #     print("Whack!")
-        if round < 10:
-            for i in range(4):
-                if mpr121[i].value:
-                    if i in out:
-                        out.pop(out.index(i))
-                        val = f"Mole {i} whacked!"
-                        print(val)
-                        # walking_rainbow()
-                        round += 1
+        for i in range(4):
+            time.sleep(0.02)
+            if round == 0:
+                my_stick.LED_off()
+                wrong = 0
+            if mpr121[i].value:
+                if i in out:
+                    prev = out.pop(out.index(i))
+                    val = f"Mole {i} whacked!"
+                    print(val)
+                    # walking_rainbow()
+                    round += 1
+                    print(round)
+                    if round < 10:
+                        correct += 1
+                        time.sleep(0.01)
                         my_stick.set_single_LED_color(round, 0, 255, 0)
-                    else:
-                        round += 1
-                        my_stick.set_single_LED_color(round, 255, 0, 0)
+                        # time.sleep(0.01)
+                    elif wrong == 0:
+                        correct += 2
+                        time.sleep(0.01)
+                        run_gradient(my_stick)
+                        # time.sleep(0.01)
+                else:
+                    round += 1
+                    time.sleep(0.01)
+                    my_stick.set_single_LED_color(round, 255, 0, 0)
+                    # time.sleep(0.01)
+                    #round = 0
+
+                    wrong += 1
+                    # time.sleep(0.3)
+                    #my_stick.LED_off()
+                if wrong > 0:
+                    if round > 9:
                         round = 0
-
-                        wrong += 1
-                        # time.sleep(0.3)
-                        my_stick.LED_off()
-        elif round < 15:
-            for j in range(0, rainbow_length):
-
-                for i in range(0, LED_length):
-                    # There are n colors generated for the rainbow
-                    # The value of n determins which color is generated at each pixel
-                    n = i + 1 - j
-
-                    # Loop n so that it is always between 1 and rainbow_length
-                    if n <= 0:
-                        n = n + rainbow_length
-
-                    # The nth color is between red and yellow
-                    if n <= math.floor(rainbow_length / 6):
-                        red_array[i] = 255
-                        green_array[i] = int(math.floor(6 * 255 / rainbow_length * n))
-                        blue_array[i] = 0
-                    
-                    # The nth color is between yellow and green
-                    elif n <= math.floor(rainbow_length / 3):
-                        red_array[i] = int(math.floor(510 - 6 * 255 / rainbow_length * n))
-                        green_array[i] = 255
-                        blue_array[i] = 0
-                    
-                    # The nth color is between green and cyan
-                    elif n <= math.floor(rainbow_length / 2):
-                        red_array[i] = 0
-                        green_array[i] = 255
-                        blue_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 510))
-                    
-                    # The nth color is between blue and magenta
-                    elif n <= math.floor(5 * rainbow_length / 6):
-                        red_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 1020))
-                        green_array[i] = 0
-                        blue_array[i] = 255
-                    
-                    # The nth color is between magenta and red
-                    else:
-                        red_array[i] = 255
-                        green_array[i] = 0
-                        blue_array[i] = int(math.floor(1530 - (6 *255 / rainbow_length * n)))
-
-                # Set all the LEDs to the color values accordig to the arrays
-                my_stick.set_all_LED_unique_color(red_array, green_array, blue_array, LED_length)
-
-                for i in range(4):
-                    if mpr121[i].value:
-                        if i in out:
-                            out.pop(out.index(i))
-                            val = f"Mole {i} whacked!"
-                            print(val)
-                            # walking_rainbow()
-                            round += 1
-                            correct += 2
-                        else:
-                            round += 1
-                            wrong += 1
-                            # time.sleep(0.3)
-                        time.sleep(0.1)
                     
                 # client.publish(topic, val)
-        # time.sleep(0.25)
+            time.sleep(0.1)
+
+        #my_stick.LED_off()
+        #time.sleep(0.1)
 
 if __name__ == '__main__':
     try:
