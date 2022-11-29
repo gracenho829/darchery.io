@@ -128,7 +128,11 @@ def run_whack():
             file=sys.stderr)
         return
     print("\nLED Stick ready!")
+    time.sleep(0.2)
     my_stick.set_all_LED_brightness(1)
+    time.sleep(0.2)
+    my_stick.LED_off()
+    time.sleep(0.2)
     global round,correct,wrong
 
     out = []
@@ -206,18 +210,26 @@ def run_whack():
                     print(val)
                     # walking_rainbow()
                     round += 1
+                    print(round)
+                    time.sleep(0.01)
                     my_stick.set_single_LED_color(round, 0, 255, 0)
+                    time.sleep(0.01)
                 else:
                     round += 1
+                    time.sleep(0.01)
                     my_stick.set_single_LED_color(round, 255, 0, 0)
-                    round = 0
+                    time.sleep(0.01)
+                    #round = 0
 
                     wrong += 1
                     # time.sleep(0.3)
-                    my_stick.LED_off()
+                    #my_stick.LED_off()
                     
                 # client.publish(topic, val)
-        # time.sleep(0.25)
+            time.sleep(0.02)
+
+        #my_stick.LED_off()
+        #time.sleep(0.1)
 
 if __name__ == '__main__':
     try:
