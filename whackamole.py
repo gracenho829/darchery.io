@@ -141,7 +141,7 @@ def run_whack():
             arr[x] = 1
         
         time.sleep(0.02)    # Don't hammer too hard on the I2C bus
-        
+
         # Check if button 0 is pressed
         if 0 in out:
             # print("\nButton 0 is pressed!")
@@ -183,6 +183,7 @@ def run_whack():
         #     out.pop(out.index(press))
         #     print("Whack!")
         for i in range(4):
+            time.sleep(0.02)
             if round == 0:
                 my_stick.LED_off()
                 wrong = 0
