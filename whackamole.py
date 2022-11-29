@@ -7,9 +7,84 @@ import time
 import board
 import busio
 import adafruit_mpr121
+import qwiic_led_stick
+import math
+import digitalio
+import subprocess
 
 import paho.mqtt.client as mqtt
 import uuid
+
+# parameters
+round = 0
+correct = 0
+wrong = 0
+
+# Fuction of rainbow effect
+def walking_rainbow(LED_stick, rainbow_length, LED_length, delay, value):
+    red_array = [None] * LED_length
+    blue_array = [None] * LED_length
+    green_array = [None] * LED_length
+
+    global round,correct,wrong
+
+    for j in range(0, rainbow_length):
+
+        for i in range(0, LED_length):
+            # There are n colors generated for the rainbow
+            # The value of n determins which color is generated at each pixel
+            n = i + 1 - j
+
+            # Loop n so that it is always between 1 and rainbow_length
+            if n <= 0:
+                n = n + rainbow_length
+
+            # The nth color is between red and yellow
+            if n <= math.floor(rainbow_length / 6):
+                red_array[i] = 255
+                green_array[i] = int(math.floor(6 * 255 / rainbow_length * n))
+                blue_array[i] = 0
+            
+            # The nth color is between yellow and green
+            elif n <= math.floor(rainbow_length / 3):
+                red_array[i] = int(math.floor(510 - 6 * 255 / rainbow_length * n))
+                green_array[i] = 255
+                blue_array[i] = 0
+            
+            # The nth color is between green and cyan
+            elif n <= math.floor(rainbow_length / 2):
+                red_array[i] = 0
+                green_array[i] = 255
+                blue_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 510))
+            
+            # The nth color is between blue and magenta
+            elif n <= math.floor(5 * rainbow_length / 6):
+                red_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 1020))
+                green_array[i] = 0
+                blue_array[i] = 255
+            
+            # The nth color is between magenta and red
+            else:
+                red_array[i] = 255
+                green_array[i] = 0
+                blue_array[i] = int(math.floor(1530 - (6 *255 / rainbow_length * n)))
+
+        # Set all the LEDs to the color values accordig to the arrays
+        LED_stick.set_all_LED_unique_color(red_array, green_array, blue_array, LED_length)
+
+        if value:  # just button A pressed Making correct
+            round += 1
+            correct += 2
+            print(correct)
+            time.sleep(0.1)
+
+        elif not value:  # just button B pressed Making wrong
+            round += 1
+            wrong += 1
+            print(wrong)
+            time.sleep(0.1)
+
+        time.sleep(delay)
 
 def run_whack():
     # Configure Buttons
@@ -44,6 +119,18 @@ def run_whack():
     mpr121 = adafruit_mpr121.MPR121(i2c)
     print("\nCapacitive Touch Ready")
 
+    # Configure
+    print("\nSparkFun Qwiic LED Stick Example 1")
+    my_stick = qwiic_led_stick.QwiicLEDStick()
+
+    if my_stick.begin() == False:
+        print("\nThe Qwiic LED Stick isn't connected to the sytsem. Please check your connection", \
+            file=sys.stderr)
+        return
+    print("\nLED Stick ready!")
+    my_stick.set_all_LED_brightness(1)
+    global round,correct,wrong
+
     out = []
     brightness = 100
 
@@ -75,13 +162,18 @@ def run_whack():
         if 0 in out:
             # print("\nButton 0 is pressed!")
             my_button0.LED_on(brightness)
+            round += 1
+            my_stick.set_single_LED_color(round, 0, 255, 0)
         else:
             my_button0.LED_off()
+            
 
         # Check if button1 is pressed
         if 1 in out:
             # print("\nButton 1 is pressed!")
             my_button1.LED_on(brightness)
+            round += 1
+            my_stick.set_single_LED_color(round, 0, 255, 0)
         else:
             my_button1.LED_off()
 
@@ -89,6 +181,8 @@ def run_whack():
         if 2 in out:
             # print("\nButton 2 is pressed!")
             my_button2.LED_on(brightness)
+            round += 1
+            my_stick.set_single_LED_color(round, 0, 255, 0)
         else:
             my_button2.LED_off()
 
@@ -116,6 +210,18 @@ def run_whack():
                     out.pop(out.index(i))
                     val = f"Mole {i} whacked!"
                     print(val)
+                    # walking_rainbow()
+                    round += 1
+                    my_stick.set_single_LED_color(round, 0, 255, 0)
+                else:
+                    round += 1
+                    my_stick.set_single_LED_color(round, 255, 0, 0)
+                    round = 0
+
+                    wrong += 1
+                    # time.sleep(0.3)
+                    my_stick.LED_off()
+                    
                 # client.publish(topic, val)
         # time.sleep(0.25)
 
