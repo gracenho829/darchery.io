@@ -182,6 +182,7 @@ def run_whack():
         for i in range(4):
             if round == 0:
                 my_stick.LED_off()
+                wrong = 0
             if mpr121[i].value:
                 if i in out:
                     out.pop(out.index(i))
@@ -195,7 +196,7 @@ def run_whack():
                         time.sleep(0.01)
                         my_stick.set_single_LED_color(round, 0, 255, 0)
                         time.sleep(0.01)
-                    else:
+                    elif wrong == 0:
                         correct += 2
                         time.sleep(0.01)
                         run_gradient(my_stick)
