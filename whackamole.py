@@ -162,8 +162,6 @@ def run_whack():
         if 0 in out:
             # print("\nButton 0 is pressed!")
             my_button0.LED_on(brightness)
-            round += 1
-            my_stick.set_single_LED_color(round, 0, 255, 0)
         else:
             my_button0.LED_off()
             
@@ -172,8 +170,6 @@ def run_whack():
         if 1 in out:
             # print("\nButton 1 is pressed!")
             my_button1.LED_on(brightness)
-            round += 1
-            my_stick.set_single_LED_color(round, 0, 255, 0)
         else:
             my_button1.LED_off()
 
@@ -181,8 +177,6 @@ def run_whack():
         if 2 in out:
             # print("\nButton 2 is pressed!")
             my_button2.LED_on(brightness)
-            round += 1
-            my_stick.set_single_LED_color(round, 0, 255, 0)
         else:
             my_button2.LED_off()
 
