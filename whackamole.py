@@ -21,7 +21,7 @@ correct = 0
 wrong = 0
 
 # Fuction of rainbow effect
-def walking_rainbow(LED_stick, rainbow_length, LED_length, delay, value):
+def walking_rainbow(LED_stick, rainbow_length, LED_length, delay):
     red_array = [None] * LED_length
     blue_array = [None] * LED_length
     green_array = [None] * LED_length
@@ -130,6 +130,11 @@ def run_whack():
     print("\nLED Stick ready!")
     my_stick.set_all_LED_brightness(1)
     global round,correct,wrong
+    red_array = [None] * LED_length
+    blue_array = [None] * LED_length
+    green_array = [None] * LED_length
+    rainbow_length = 20
+    LED_length = 10
 
     out = []
     brightness = 100
@@ -198,23 +203,83 @@ def run_whack():
         # if press in out:
         #     out.pop(out.index(press))
         #     print("Whack!")
-        for i in range(4):
-            if mpr121[i].value:
-                if i in out:
-                    out.pop(out.index(i))
-                    val = f"Mole {i} whacked!"
-                    print(val)
-                    # walking_rainbow()
-                    round += 1
-                    my_stick.set_single_LED_color(round, 0, 255, 0)
-                else:
-                    round += 1
-                    my_stick.set_single_LED_color(round, 255, 0, 0)
-                    round = 0
+        if round < 10:
+            for i in range(4):
+                if mpr121[i].value:
+                    if i in out:
+                        out.pop(out.index(i))
+                        val = f"Mole {i} whacked!"
+                        print(val)
+                        # walking_rainbow()
+                        round += 1
+                        my_stick.set_single_LED_color(round, 0, 255, 0)
+                    else:
+                        round += 1
+                        my_stick.set_single_LED_color(round, 255, 0, 0)
+                        round = 0
 
-                    wrong += 1
-                    # time.sleep(0.3)
-                    my_stick.LED_off()
+                        wrong += 1
+                        # time.sleep(0.3)
+                        my_stick.LED_off()
+        elif round < 15:
+            for j in range(0, rainbow_length):
+
+                for i in range(0, LED_length):
+                    # There are n colors generated for the rainbow
+                    # The value of n determins which color is generated at each pixel
+                    n = i + 1 - j
+
+                    # Loop n so that it is always between 1 and rainbow_length
+                    if n <= 0:
+                        n = n + rainbow_length
+
+                    # The nth color is between red and yellow
+                    if n <= math.floor(rainbow_length / 6):
+                        red_array[i] = 255
+                        green_array[i] = int(math.floor(6 * 255 / rainbow_length * n))
+                        blue_array[i] = 0
+                    
+                    # The nth color is between yellow and green
+                    elif n <= math.floor(rainbow_length / 3):
+                        red_array[i] = int(math.floor(510 - 6 * 255 / rainbow_length * n))
+                        green_array[i] = 255
+                        blue_array[i] = 0
+                    
+                    # The nth color is between green and cyan
+                    elif n <= math.floor(rainbow_length / 2):
+                        red_array[i] = 0
+                        green_array[i] = 255
+                        blue_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 510))
+                    
+                    # The nth color is between blue and magenta
+                    elif n <= math.floor(5 * rainbow_length / 6):
+                        red_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 1020))
+                        green_array[i] = 0
+                        blue_array[i] = 255
+                    
+                    # The nth color is between magenta and red
+                    else:
+                        red_array[i] = 255
+                        green_array[i] = 0
+                        blue_array[i] = int(math.floor(1530 - (6 *255 / rainbow_length * n)))
+
+                # Set all the LEDs to the color values accordig to the arrays
+                my_stick.set_all_LED_unique_color(red_array, green_array, blue_array, LED_length)
+
+                for i in range(4):
+                    if mpr121[i].value:
+                        if i in out:
+                            out.pop(out.index(i))
+                            val = f"Mole {i} whacked!"
+                            print(val)
+                            # walking_rainbow()
+                            round += 1
+                            correct += 2
+                        else:
+                            round += 1
+                            wrong += 1
+                            # time.sleep(0.3)
+                        time.sleep(0.1)
                     
                 # client.publish(topic, val)
         # time.sleep(0.25)
