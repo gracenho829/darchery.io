@@ -73,7 +73,7 @@ def run_whack():
         
         # Check if button 0 is pressed
         if 0 in out:
-            # print("\nButton 1 is pressed!")
+            # print("\nButton 0 is pressed!")
             my_button0.LED_on(brightness)
         else:
             my_button0.LED_off()
@@ -83,21 +83,21 @@ def run_whack():
             # print("\nButton 1 is pressed!")
             my_button1.LED_on(brightness)
         else:
-            my_button0.LED_off()
+            my_button1.LED_off()
 
         # Check if button2 is pressed
         if 2 in out:
-            # print("\nButton 1 is pressed!")
+            # print("\nButton 2 is pressed!")
             my_button2.LED_on(brightness)
         else:
-            my_button0.LED_off()
+            my_button2.LED_off()
 
         # Check if button3 is pressed
         if 3 in out:
-            # print("\nButton 1 is pressed!")
+            # print("\nButton 3 is pressed!")
             my_button3.LED_on(brightness)
         else:
-            my_button0.LED_off()
+            my_button3.LED_off()
 
         time.sleep(0.02)    # Don't hammer too hard on the I2C bus
 
