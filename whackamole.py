@@ -120,6 +120,7 @@ def run_whack():
     popTime = pushTime + random.randrange(1, 3.0)
     prev = -1
     while True:
+        time.sleep(0.02)
         # Generate next mole to pop up
         num = random.randint(0,4)
         while num == prev:
@@ -138,6 +139,8 @@ def run_whack():
         arr = [0, 0, 0, 0, 0]
         for x in out:
             arr[x] = 1
+        
+        time.sleep(0.02)    # Don't hammer too hard on the I2C bus
         
         # Check if button 0 is pressed
         if 0 in out:
@@ -215,7 +218,6 @@ def run_whack():
                     round %= 10
                     
                 # client.publish(topic, val)
-            time.sleep(0.02)
                 
 
         #my_stick.LED_off()
