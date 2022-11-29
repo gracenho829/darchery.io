@@ -220,7 +220,7 @@ def run_whack():
                         round = 0
                     
                 # client.publish(topic, val)
-                
+            time.sleep(0.1)
 
         #my_stick.LED_off()
         #time.sleep(0.1)
