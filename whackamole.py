@@ -189,7 +189,7 @@ def run_whack():
                 wrong = 0
             if mpr121[i].value:
                 if i in out:
-                    out.pop(out.index(i))
+                    prev = out.pop(out.index(i))
                     val = f"Mole {i} whacked!"
                     print(val)
                     # walking_rainbow()
@@ -216,7 +216,7 @@ def run_whack():
                     # time.sleep(0.3)
                     #my_stick.LED_off()
                 if wrong > 0:
-                    if round < 9:
+                    if round > 9:
                         round = 0
                     
                 # client.publish(topic, val)
