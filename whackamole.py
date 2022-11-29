@@ -197,19 +197,19 @@ def run_whack():
                     print(round)
                     if round < 10:
                         correct += 1
-                        time.sleep(0.01)
+                        # time.sleep(0.01)
                         my_stick.set_single_LED_color(round, 0, 255, 0)
-                        time.sleep(0.01)
+                        # time.sleep(0.01)
                     elif wrong == 0:
                         correct += 2
                         time.sleep(0.01)
                         run_gradient(my_stick)
-                        time.sleep(0.01)
+                        # time.sleep(0.01)
                 else:
                     round += 1
-                    time.sleep(0.01)
+                    # time.sleep(0.01)
                     my_stick.set_single_LED_color(round, 255, 0, 0)
-                    time.sleep(0.01)
+                    # time.sleep(0.01)
                     #round = 0
 
                     wrong += 1
