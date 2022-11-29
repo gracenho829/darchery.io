@@ -202,11 +202,11 @@ def run_whack():
                     #my_stick.LED_off()
                     
                 # client.publish(topic, val)
-                if round > 2:
-                    time.sleep(0.01)
-                    run_gradient()
-                    time.sleep(0.01)
-                time.sleep(0.02)
+            if round > 2:
+                time.sleep(0.01)
+                run_gradient()
+                time.sleep(0.01)
+            time.sleep(0.02)
                 
 
         #my_stick.LED_off()
