@@ -15,22 +15,6 @@ import subprocess
 import paho.mqtt.client as mqtt
 import uuid
 
-# MQTT setup
-
-# Every client needs a random ID
-client = mqtt.Client(str(uuid.uuid1()))
-# configure network encryption etc
-client.tls_set()
-# this is the username and pw we have setup for the class
-client.username_pw_set('idd', 'device@theFarm')
-
-#connect to the broker
-client.connect(
-    'farlab.infosci.cornell.edu',
-    port=8883)
-
-topic = '0AIDD/testing'
-
 # parameters
 round = 0
 correct = 0
@@ -80,6 +64,22 @@ def run_gradient(my_stick):
     color_gradient(my_stick, r1, g1, b1, r2, g2, b2, 10)
 
 def run_whack():
+    # MQTT setup
+
+    # Every client needs a random ID
+    client = mqtt.Client(str(uuid.uuid1()))
+    # configure network encryption etc
+    client.tls_set()
+    # this is the username and pw we have setup for the class
+    client.username_pw_set('idd', 'device@theFarm')
+
+    #connect to the broker
+    client.connect(
+        'farlab.infosci.cornell.edu',
+        port=8883)
+
+    topic = '0AIDD/testing'
+    
     # Configure Buttons
     print("\nConfig Buttons")
     my_button0 = qwiic_button.QwiicButton()
