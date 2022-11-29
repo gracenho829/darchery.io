@@ -51,13 +51,13 @@ def run_gradient():
 
     # Set the colors for the gradient
     # These are for the first color
-    r1 =238
-    g1 = 49
-    b1 = 36
+    r1 = random.randint(0, 255)
+    g1 = random.randint(0, 255)
+    b1 = random.randint(0, 255)
     # These are for the last color    
-    r2 = 66
-    g2 = 235
-    b2 = 23
+    r2 = random.randint(0, 255)
+    g2 = random.randint(0, 255)
+    b2 = random.randint(0, 255)
 
     color_gradient(my_stick, r1, g1, b1, r2, g2, b2, 10)
 
