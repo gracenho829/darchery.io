@@ -78,8 +78,8 @@ def run_whack():
         'farlab.infosci.cornell.edu',
         port=8883)
 
-    topic = '0AIDD/testing'
-    
+    topic = 'IDD/Whackamole'
+
     # Configure Buttons
     print("\nConfig Buttons")
     my_button0 = qwiic_button.QwiicButton()
