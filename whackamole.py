@@ -40,16 +40,16 @@ def color_gradient(LED_stick, r1, b1, g1, r2, g2, b2, LED_length):
         LED_stick.set_single_LED_color(i + 1, int(r_value), int(g_value), int(b_value))
         time.sleep(0.02)
 
-def run_gradient():
+def run_gradient(my_stick):
 
-    print("\nSparkFun Qwiic LED Stick Example 6")
-    my_stick = qwiic_led_stick.QwiicLEDStick()
+    # print("\nSparkFun Qwiic LED Stick Example 6")
+    # my_stick = qwiic_led_stick.QwiicLEDStick()
 
-    if my_stick.begin() == False:
-        print("\nThe Qwiic LED Stick isn't connected to the system. Please check your connection", \
-            file=sys.stderr)
-        return
-    print("\nLED Stick ready!")
+    # if my_stick.begin() == False:
+    #     print("\nThe Qwiic LED Stick isn't connected to the system. Please check your connection", \
+    #         file=sys.stderr)
+    #     return
+    # print("\nLED Stick ready!")
 
     # Set the colors for the gradient
     # These are for the first color
@@ -180,6 +180,8 @@ def run_whack():
         #     out.pop(out.index(press))
         #     print("Whack!")
         for i in range(4):
+            if round == 0:
+                my_stick.LED_off()
             if mpr121[i].value:
                 if i in out:
                     out.pop(out.index(i))
@@ -188,9 +190,16 @@ def run_whack():
                     # walking_rainbow()
                     round += 1
                     print(round)
-                    time.sleep(0.01)
-                    my_stick.set_single_LED_color(round, 0, 255, 0)
-                    time.sleep(0.01)
+                    if round < 10:
+                        correct += 1
+                        time.sleep(0.01)
+                        my_stick.set_single_LED_color(round, 0, 255, 0)
+                        time.sleep(0.01)
+                    else:
+                        correct += 2
+                        time.sleep(0.01)
+                        run_gradient(my_stick)
+                        time.sleep(0.01)
                 else:
                     round += 1
                     time.sleep(0.01)
@@ -201,12 +210,9 @@ def run_whack():
                     wrong += 1
                     # time.sleep(0.3)
                     #my_stick.LED_off()
+                round %= 10
                     
                 # client.publish(topic, val)
-            if round > 2:
-                time.sleep(0.01)
-                run_gradient()
-                time.sleep(0.01)
             time.sleep(0.02)
                 
 
