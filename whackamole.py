@@ -15,6 +15,22 @@ import subprocess
 import paho.mqtt.client as mqtt
 import uuid
 
+# MQTT setup
+
+# Every client needs a random ID
+client = mqtt.Client(str(uuid.uuid1()))
+# configure network encryption etc
+client.tls_set()
+# this is the username and pw we have setup for the class
+client.username_pw_set('idd', 'device@theFarm')
+
+#connect to the broker
+client.connect(
+    'farlab.infosci.cornell.edu',
+    port=8883)
+
+topic = '0AIDD/testing'
+
 # parameters
 round = 0
 correct = 0
@@ -197,11 +213,13 @@ def run_whack():
                     print(round)
                     if round < 10:
                         correct += 1
+                        client.publish(topic, correct)
                         time.sleep(0.01)
                         my_stick.set_single_LED_color(round, 0, 255, 0)
                         # time.sleep(0.01)
                     elif wrong == 0:
                         correct += 2
+                        client.publish(topic, correct)
                         time.sleep(0.01)
                         run_gradient(my_stick)
                         # time.sleep(0.01)
