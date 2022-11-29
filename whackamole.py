@@ -36,8 +36,9 @@ def color_gradient(LED_stick, r1, b1, g1, r2, g2, b2, LED_length):
         g_value = g1 + g_slope * i
         b_value = b1 + b_slope * i
         # Set the pixel to the calculated color
-        time.sleep(0.01)
+        time.sleep(0.02)
         LED_stick.set_single_LED_color(i + 1, int(r_value), int(g_value), int(b_value))
+        time.sleep(0.02)
 
 def run_gradient():
 
