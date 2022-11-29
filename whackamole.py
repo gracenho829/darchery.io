@@ -4,8 +4,15 @@ import qwiic_button
 import sys
 import random
 import time
+import board
+import busio
+import adafruit_mpr121
+
+import paho.mqtt.client as mqtt
+import uuid
 
 def run_whack():
+    # Configure Buttons
     print("\nConfig Buttons")
     my_button0 = qwiic_button.QwiicButton()
     my_button1 = qwiic_button.QwiicButton(0x5F)
@@ -30,6 +37,12 @@ def run_whack():
         return
 
     print("\nButton's ready!")
+
+    # Configure Capacitive Touch
+    print("\nConfig Capacitive Touch")
+    i2c = busio.I2C(board.SCL, board.SDA)
+    mpr121 = adafruit_mpr121.MPR121(i2c)
+    print("\nCapacitive Touch Ready")
 
     out = []
     brightness = 100
@@ -97,6 +110,14 @@ def run_whack():
         # if press in out:
         #     out.pop(out.index(press))
         #     print("Whack!")
+        for i in range(4):
+            if mpr121[i].value:
+                if i in out():
+                    out.pop(out.index(i))
+                    val = f"Mole {i} whacked!"
+                    print(val)
+                # client.publish(topic, val)
+        # time.sleep(0.25)
 
 if __name__ == '__main__':
     try:
