@@ -211,7 +211,8 @@ def run_whack():
                     wrong += 1
                     # time.sleep(0.3)
                     #my_stick.LED_off()
-                round %= 10
+                if wrong > 0:
+                    round %= 10
                     
                 # client.publish(topic, val)
             time.sleep(0.02)
