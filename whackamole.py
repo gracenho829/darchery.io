@@ -67,16 +67,16 @@ def run_whack():
     # MQTT setup
 
     # Every client needs a random ID
-    client = mqtt.Client(str(uuid.uuid1()))
+    client = mqtt.Client(transport="websockets")
     # configure network encryption etc
-    client.tls_set()
+    #client.tls_set()
     # this is the username and pw we have setup for the class
-    client.username_pw_set('idd', 'device@theFarm')
+    #client.username_pw_set('idd', 'device@theFarm')
 
     #connect to the broker
     client.connect(
-        'farlab.infosci.cornell.edu',
-        port=8883)
+        '10.56.131.217',
+        port=9001)
 
     topic = 'IDD/Whackamole'
 
