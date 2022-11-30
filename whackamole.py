@@ -224,15 +224,15 @@ def run_whack():
                     print(round)
                     if round < 10:
                         correct += 1
-                        client.publish(topic, correct)
                         time.sleep(0.01)
                         my_stick.set_single_LED_color(round, 0, 255, 0)
+                        client.publish(topic, correct)
                         # time.sleep(0.01)
                     elif wrong == 0:
                         correct += 2
-                        client.publish(topic, correct)
                         time.sleep(0.01)
                         run_gradient(my_stick)
+                        client.publish(topic, correct)
                         # time.sleep(0.01)
                 else:
                     round += 1
