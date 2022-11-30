@@ -20,6 +20,53 @@ round = 0
 correct = 0
 wrong = 0
 
+# MQTT setup
+
+# Every client needs a random ID
+client = mqtt.Client(transport="websockets")
+# configure network encryption etc
+#client.tls_set()
+# this is the username and pw we have setup for the class
+#client.username_pw_set('idd', 'device@theFarm')
+
+#connect to the broker
+client.connect(
+    #'10.56.131.217', # Tata
+    '100.64.10.115', # House
+    port=9001)
+
+topic = 'IDD/Whackamole'
+
+# Configure Buttons
+print("\nConfig Buttons")
+my_button0 = qwiic_button.QwiicButton()
+my_button1 = qwiic_button.QwiicButton(0x5F)
+my_button2 = qwiic_button.QwiicButton(0x5E)
+my_button3 = qwiic_button.QwiicButton(0x5D)
+my_button4 = qwiic_button.QwiicButton(0x5C)
+buttons = [my_button0, my_button1, my_button2, my_button3, my_button4]
+
+# Configure Capacitive Touch
+print("\nConfig Capacitive Touch")
+i2c = busio.I2C(board.SCL, board.SDA)
+mpr121 = adafruit_mpr121.MPR121(i2c)
+print("\nCapacitive Touch Ready")
+
+# Configure
+print("\nSparkFun Qwiic LED Stick Example 1")
+my_stick = qwiic_led_stick.QwiicLEDStick()
+
+if my_stick.begin() == False:
+    print("\nThe Qwiic LED Stick isn't connected to the sytsem. Please check your connection", \
+        file=sys.stderr)
+    sys.exit(0)
+print("\nLED Stick ready!")
+time.sleep(0.2)
+my_stick.set_all_LED_brightness(1)
+time.sleep(0.2)
+my_stick.LED_off()
+time.sleep(0.2)
+
 # Fuction of gradient effect
 def color_gradient(LED_stick, r1, b1, g1, r2, g2, b2, LED_length):
     # Subtract 1 from LED_length because there is one less transition color
@@ -64,31 +111,6 @@ def run_gradient(my_stick):
     color_gradient(my_stick, r1, g1, b1, r2, g2, b2, 10)
 
 def run_whack():
-    # MQTT setup
-
-    # Every client needs a random ID
-    client = mqtt.Client(transport="websockets")
-    # configure network encryption etc
-    #client.tls_set()
-    # this is the username and pw we have setup for the class
-    #client.username_pw_set('idd', 'device@theFarm')
-
-    #connect to the broker
-    client.connect(
-        #'10.56.131.217', # Tata
-        '100.64.10.115', # House
-        port=9001)
-
-    topic = 'IDD/Whackamole'
-
-    # Configure Buttons
-    print("\nConfig Buttons")
-    my_button0 = qwiic_button.QwiicButton()
-    my_button1 = qwiic_button.QwiicButton(0x5F)
-    my_button2 = qwiic_button.QwiicButton(0x5E)
-    my_button3 = qwiic_button.QwiicButton(0x5D)
-    my_button4 = qwiic_button.QwiicButton(0x5C)
-    buttons = [my_button0, my_button1, my_button2, my_button3, my_button4]
 
     if my_button0.begin() == False:
         print("\nThe Qwiic Button 0 isn't connected to the system. Please check your connection", \
@@ -112,28 +134,6 @@ def run_whack():
         return
 
     print("\nButtons ready!")
-
-    # Configure Capacitive Touch
-    print("\nConfig Capacitive Touch")
-    i2c = busio.I2C(board.SCL, board.SDA)
-    mpr121 = adafruit_mpr121.MPR121(i2c)
-    print("\nCapacitive Touch Ready")
-
-    # Configure
-    print("\nSparkFun Qwiic LED Stick Example 1")
-    my_stick = qwiic_led_stick.QwiicLEDStick()
-
-    if my_stick.begin() == False:
-        print("\nThe Qwiic LED Stick isn't connected to the sytsem. Please check your connection", \
-            file=sys.stderr)
-        return
-    print("\nLED Stick ready!")
-    time.sleep(0.2)
-    my_stick.set_all_LED_brightness(1)
-    time.sleep(0.2)
-    my_stick.LED_off()
-    time.sleep(0.2)
-    global round,correct,wrong
 
     out = []
     brightness = 100
@@ -262,4 +262,7 @@ if __name__ == '__main__':
         run_whack()
     except (KeyboardInterrupt, SystemExit) as exErr:
         print("\nEnding Whackamole")
+        for button in buttons:
+            button.LED_off()
+        my_stick.LED_off()
         sys.exit(0)
