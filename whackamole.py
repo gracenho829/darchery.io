@@ -265,6 +265,6 @@ if __name__ == '__main__':
         for button in buttons:
             time.sleep(0.1)
             button.LED_off()
-        time.sleep(0.1)
+        time.sleep(0.2)
         my_stick.LED_off()
         sys.exit(0)
