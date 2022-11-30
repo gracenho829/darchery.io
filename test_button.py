@@ -7,11 +7,16 @@ import sys
 def run_example():
 
     print("\nSparkFun Qwiic Button Example 7")
-    my_button1 = qwiic_button.QwiicButton()
-    my_button2 = qwiic_button.QwiicButton(0x5F)
-    my_button3 = qwiic_button.QwiicButton(0x5E)
-    my_button4 = qwiic_button.QwiicButton(0x5D)
+    my_button0 = qwiic_button.QwiicButton()
+    my_button1 = qwiic_button.QwiicButton(0x5F)
+    my_button2 = qwiic_button.QwiicButton(0x5E)
+    my_button3 = qwiic_button.QwiicButton(0x5D)
+    my_button4 = qwiic_button.QwiicButton(0x5C)
 
+    if my_button0.begin() == False:
+        print("\nThe Qwiic Button 0 isn't connected to the system. Please check your connection", \
+            file=sys.stderr)
+        return
     if my_button1.begin() == False:
         print("\nThe Qwiic Button 1 isn't connected to the system. Please check your connection", \
             file=sys.stderr)
@@ -21,11 +26,11 @@ def run_example():
             file=sys.stderr)
         return
     if my_button3.begin() == False:
-        print("\nThe Qwiic Button 2 isn't connected to the system. Please check your connection", \
+        print("\nThe Qwiic Button 3 isn't connected to the system. Please check your connection", \
             file=sys.stderr)
         return
     if my_button4.begin() == False:
-        print("\nThe Qwiic Button 2 isn't connected to the system. Please check your connection", \
+        print("\nThe Qwiic Button 4 isn't connected to the system. Please check your connection", \
             file=sys.stderr)
         return
     
@@ -33,6 +38,10 @@ def run_example():
 
     while 1:
 
+        # Check if button 0 is pressed
+        if my_button0.is_button_pressed() == True:
+            print("\nButton 0 is pressed!")
+        
         # Check if button 1 is pressed
         if my_button1.is_button_pressed() == True:
             print("\nButton 1 is pressed!")

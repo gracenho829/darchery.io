@@ -75,7 +75,8 @@ def run_whack():
 
     #connect to the broker
     client.connect(
-        '10.56.131.217',
+        #'10.56.131.217', # Tata
+        '100.64.10.115', # House
         port=9001)
 
     topic = 'IDD/Whackamole'
@@ -258,5 +259,5 @@ if __name__ == '__main__':
     try:
         run_whack()
     except (KeyboardInterrupt, SystemExit) as exErr:
-        print("\nEnding Example 7")
+        print("\nEnding Whackamole")
         sys.exit(0)
