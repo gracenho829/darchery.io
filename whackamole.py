@@ -143,11 +143,11 @@ def run_whack():
     popTime = pushTime + random.randrange(1, 3.0)
     prev = -1
     while True:
-        time.sleep(0.02)
+        #time.sleep(0.02)
         # Generate next mole to pop up
-        num = random.randint(0,4)
+        num = random.randint(0,2)
         while num == prev:
-            num = random.randint(0,4)
+            num = random.randint(0,2)
         if len(out) < 2:
             popTime = pushTime + random.randrange(1, 4.0) 
             if pushTime < time.time():
@@ -159,11 +159,11 @@ def run_whack():
             out.pop(0)
 
         # Visualize moles
-        arr = [0, 0, 0, 0, 0]
-        for x in out:
-            arr[x] = 1
+        #arr = [0, 0, 0, 0, 0]
+        #for x in out:
+        #    arr[x] = 1
         
-        time.sleep(0.02)    # Don't hammer too hard on the I2C bus
+        #time.sleep(0.02)    # Don't hammer too hard on the I2C bus
 
         # Check if button 0 is pressed
         if 0 in out:
@@ -204,7 +204,7 @@ def run_whack():
 
         prev = num
         
-        print(arr)
+        #print(arr)
 
         # Check for whack
         # press = int(input())
@@ -219,27 +219,27 @@ def run_whack():
             if mpr121[i].value:
                 if i in out:
                     prev = out.pop(out.index(i))
-                    val = f"Mole {i} whacked!"
-                    print(val)
+                    #val = f"Mole {i} whacked!"
+                    #print(val)
                     buttons[i].LED_off()
                     # walking_rainbow()
                     round += 1
-                    print(round)
+                    #print(round)
                     if round < 10:
                         correct += 1
-                        time.sleep(0.01)
+                        time.sleep(0.02)
                         my_stick.set_single_LED_color(round, 0, 255, 0)
                         client.publish(topic, correct)
                         # time.sleep(0.01)
                     elif wrong == 0:
                         correct += 2
-                        time.sleep(0.01)
+                        #time.sleep(0.02)
                         run_gradient(my_stick)
                         client.publish(topic, correct)
                         # time.sleep(0.01)
                 else:
                     round += 1
-                    time.sleep(0.01)
+                    time.sleep(0.02)
                     my_stick.set_single_LED_color(round, 255, 0, 0)
                     # time.sleep(0.01)
                     #round = 0
@@ -252,7 +252,7 @@ def run_whack():
                         round = 0
                     
                 # client.publish(topic, val)
-            time.sleep(0.1)
+            #time.sleep(0.02)
 
         #my_stick.LED_off()
         #time.sleep(0.1)
