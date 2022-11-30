@@ -86,6 +86,7 @@ def run_whack():
     my_button1 = qwiic_button.QwiicButton(0x5F)
     my_button2 = qwiic_button.QwiicButton(0x5E)
     my_button3 = qwiic_button.QwiicButton(0x5D)
+    my_button4 = qwiic_button.QwiicButton(0x5C)
 
     if my_button0.begin() == False:
         print("\nThe Qwiic Button 0 isn't connected to the system. Please check your connection", \
@@ -103,8 +104,12 @@ def run_whack():
         print("\nThe Qwiic Button 3 isn't connected to the system. Please check your connection", \
             file=sys.stderr)
         return
+    if my_button4.begin() == False:
+        print("\nThe Qwiic Button 4 isn't connected to the system. Please check your connection", \
+            file=sys.stderr)
+        return
 
-    print("\nButton's ready!")
+    print("\nButtons ready!")
 
     # Configure Capacitive Touch
     print("\nConfig Capacitive Touch")
@@ -164,7 +169,6 @@ def run_whack():
             my_button0.LED_on(brightness)
         else:
             my_button0.LED_off()
-            
 
         # Check if button1 is pressed
         if 1 in out:
@@ -186,6 +190,13 @@ def run_whack():
             my_button3.LED_on(brightness)
         else:
             my_button3.LED_off()
+        
+        # Check if button4 is pressed
+        if 4 in out:
+            # print("\nButton 4 is pressed!")
+            my_button4.LED_on(brightness)
+        else:
+            my_button4.LED_off()
 
         time.sleep(0.02)    # Don't hammer too hard on the I2C bus
 
@@ -198,7 +209,7 @@ def run_whack():
         # if press in out:
         #     out.pop(out.index(press))
         #     print("Whack!")
-        for i in range(4):
+        for i in range(5):
             time.sleep(0.02)
             if round == 0:
                 my_stick.LED_off()
