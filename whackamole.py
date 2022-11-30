@@ -87,6 +87,7 @@ def run_whack():
     my_button2 = qwiic_button.QwiicButton(0x5E)
     my_button3 = qwiic_button.QwiicButton(0x5D)
     my_button4 = qwiic_button.QwiicButton(0x5C)
+    buttons = [my_button0, my_button1, my_button2, my_button3, my_button4]
 
     if my_button0.begin() == False:
         print("\nThe Qwiic Button 0 isn't connected to the system. Please check your connection", \
@@ -219,6 +220,7 @@ def run_whack():
                     prev = out.pop(out.index(i))
                     val = f"Mole {i} whacked!"
                     print(val)
+                    buttons[i].LED_off()
                     # walking_rainbow()
                     round += 1
                     print(round)
