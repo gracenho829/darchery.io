@@ -15,11 +15,6 @@ import subprocess
 import paho.mqtt.client as mqtt
 import uuid
 
-# parameters
-round = 0
-correct = 0
-wrong = 0
-
 # MQTT setup
 
 # Every client needs a random ID
@@ -111,6 +106,11 @@ def run_gradient(my_stick):
     color_gradient(my_stick, r1, g1, b1, r2, g2, b2, 10)
 
 def run_whack():
+
+    # parameters
+    round = 0
+    correct = 0
+    wrong = 0
 
     if my_button0.begin() == False:
         print("\nThe Qwiic Button 0 isn't connected to the system. Please check your connection", \
