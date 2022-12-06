@@ -26,11 +26,12 @@ client = mqtt.Client(transport="websockets")
 
 #connect to the broker
 client.connect(
-    #'10.56.131.217', # Tata
-    '100.64.10.115', # House
+    '10.56.131.217', # Tata
+    #'100.64.10.115', # House
     port=9001)
 
 topic = 'IDD/Whackamole'
+startTime = time.time()
 
 # Configure Buttons
 print("\nConfig Buttons")
@@ -111,6 +112,7 @@ def run_whack():
     round = 0
     correct = 0
     wrong = 0
+    client.publish(topic, 0)
 
     if my_button0.begin() == False:
         print("\nThe Qwiic Button 0 isn't connected to the system. Please check your connection", \
@@ -139,19 +141,19 @@ def run_whack():
     brightness = 100
 
     nxt1 = 0.0
-    pushTime = time.time() + random.randrange(1, 4.0)
-    popTime = pushTime + random.randrange(1, 3.0)
+    pushTime = time.time() + random.randrange(2, 3.0)
+    popTime = pushTime + random.randrange(2, 4.0)
     prev = -1
-    while True:
+    while time.time() < startTime + 30:
         #time.sleep(0.02)
         # Generate next mole to pop up
-        num = random.randint(0,2)
+        num = random.randint(0,4)
         while num == prev:
-            num = random.randint(0,2)
+            num = random.randint(0,4)
         if len(out) < 2:
-            popTime = pushTime + random.randrange(1, 4.0) 
+            popTime = pushTime + random.random() + 0
             if pushTime < time.time():
-                pushTime = time.time() + random.randrange(1, 3.0)
+                pushTime = time.time() + random.random() + 0
                 out.append(num)
         
         # Bring mole down if it wasn't whacked
@@ -163,7 +165,7 @@ def run_whack():
         #for x in out:
         #    arr[x] = 1
         
-        #time.sleep(0.02)    # Don't hammer too hard on the I2C bus
+        time.sleep(0.02)    # Don't hammer too hard on the I2C bus
 
         # Check if button 0 is pressed
         if 0 in out:
@@ -172,6 +174,7 @@ def run_whack():
         else:
             my_button0.LED_off()
 
+        time.sleep(0.02)    # Don't hammer too hard on the I2C bus
         # Check if button1 is pressed
         if 1 in out:
             # print("\nButton 1 is pressed!")
@@ -179,6 +182,7 @@ def run_whack():
         else:
             my_button1.LED_off()
 
+        time.sleep(0.02)    # Don't hammer too hard on the I2C bus
         # Check if button2 is pressed
         if 2 in out:
             # print("\nButton 2 is pressed!")
@@ -186,6 +190,7 @@ def run_whack():
         else:
             my_button2.LED_off()
 
+        time.sleep(0.02)    # Don't hammer too hard on the I2C bus
         # Check if button3 is pressed
         if 3 in out:
             # print("\nButton 3 is pressed!")
@@ -193,6 +198,7 @@ def run_whack():
         else:
             my_button3.LED_off()
         
+        time.sleep(0.02)    # Don't hammer too hard on the I2C bus
         # Check if button4 is pressed
         if 4 in out:
             # print("\nButton 4 is pressed!")
@@ -216,6 +222,7 @@ def run_whack():
             if round == 0:
                 my_stick.LED_off()
                 wrong = 0
+            time.sleep(0.05)
             if mpr121[i].value:
                 if i in out:
                     prev = out.pop(out.index(i))
@@ -267,4 +274,5 @@ if __name__ == '__main__':
             button.LED_off()
         time.sleep(0.2)
         my_stick.LED_off()
+        time.sleep(0.2)
         sys.exit(0)
