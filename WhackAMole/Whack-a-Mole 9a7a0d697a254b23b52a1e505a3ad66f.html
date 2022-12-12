@@ -1,0 +1,1492 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Whack-a-Mole</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9a7a0d69-7a25-4b23-b52a-1e505a3ad66f" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">⛰️</span></div><h1 class="page-title">Whack-a-Mole</h1></header><div class="page-body"><h1 id="cdbeb9d7-7ad0-460c-8549-7145348927c1" class="">👩🏻‍🏫 Project Explanation</h1><hr id="8fe22d8c-83cc-472b-a2b9-b94b049028f6"/><p id="add895a1-3761-4d93-9a90-c45aed3fe1a5" class="">Our “Whack-a-Mole” project is a scaled down version of the classic arcade game Whack-A-Mole. Green light sensors act as the mole, randomly lighting up on the board, indicating where the user must hit. These light sensors are attached to a touch capacitor sensor so that when the user hits the conducive tape clipped to the sensor, the capacitor will notify the pi of a direct hit. This will turn off the green light and add points to the total score.  </p><p id="6149188b-4c70-41cf-ada9-4e45d5cd8d2c" class="">Our Whack-a-Mole project also implemented a bonus system where 10 correct, consecutive hits will initiate a bonus session. During this session, points that the user receive are doubled before being added to the total score. We attached an LED light that keeps track of the amount of consecutive hits and when the bonus session is initiated.</p><p id="d70d0eb5-e80b-4861-abe8-074b7bac55fe" class="">The score is displayed on a server and is updated by using the MQTT server. </p><p id="45d6647b-d60a-45c8-8b2c-40ac362355d9" class="">We used the Paho MQTT client in Javascript to connect our own server with web socket protocol to receive messages(scores) from broker raspberry pi(our game).</p><p id="167ff71e-3fb1-4b5f-b935-bd3ac0120ecf" class="">
+</p><h1 id="fbe9f97b-fa2b-4bfa-8638-5e23cccc1bf2" class="">🎉 Verplank Diagram </h1><hr id="0898fbc7-a871-4876-8ac0-ebf2dc9c72ad"/><figure id="9b11e373-9199-4eca-8236-5b4dbc537dfc" class="image"><a href="Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/Verplank_Diagram.jpg"><img style="width:2386px" src="Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/Verplank_Diagram.jpg"/></a></figure><figure id="f4b4616b-1719-4535-8852-022d3e343c76" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/VerplankDiagram2.jpg"><img style="width:2386px" src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/VerplankDiagram2.jpg"/></a></figure><h1 id="58ccf9bc-3191-4ab6-94e1-f8f9426ba718" class="">🧭 State Diagram </h1><hr id="c20c6f7c-62c9-42af-9365-62ef010b51ec"/><figure id="f7365fa8-8d6b-4da5-aa2f-2a08b727d6da" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/state_diagram-05.jpg"><img style="width:1920px" src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/state_diagram-05.jpg"/></a></figure><p id="29fb255c-42e6-4eab-9a39-b918ac0162a9" class="">
+</p><p id="ff8d7cda-db48-475a-b912-64d5647abe83" class="">There are 2 states for the game: Normal Time and Bonus Time</p><p id="5b4b20f2-df9f-4b46-bde3-f7f64b064894" class=""><strong>Normal Time:</strong>
+After the player start the game, each time the player hit a mole, the player get 10 points, and a Green LED will light up on the LED stick. If the player miss a mole, a Red LED will light up and the LEDs will reset. The order is from left to right.</p><p id="ae3621cf-dc6f-4e59-88e4-9b464e3e57ed" class="">
+<strong>Bonus Time:</strong>
+When User hit 10/10 moles, the system will get into the Bonus Time so that the rainbow effect will start and all points are x5 times. Bonus Time will not stop until the play make a wrong hit.</p><p id="c5239e42-f129-4316-a608-53b7b74b433b" class="">The system also has a web application that will show the player’s score and play background music. The web application is connect with the Raspberry Pi, and every time the player hit a mole, the application will update the score and display it.</p><h1 id="6a7e3d2f-b9c4-482d-a063-227ceefd2a68" class="">🎒 Materials Used</h1><hr id="ac089309-c725-4867-aa1c-e474025e5c97"/><p id="2b714c27-35ff-4c99-a91b-7073f2f0546c" class="">To create our whack-a-mole we used the following materials : </p><figure id="456bcf90-fb7b-4086-8e3e-f2bbcfef81e8" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8196.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8196.heic"/></a></figure><p id="d7858ed9-d935-4856-8db2-69e27e917868" class="">
+</p><p id="f3299930-ee21-4e1d-bd6b-14efd926a48f" class="">1 x Raspberry Pi         <div class="indented"><p id="4c827d1f-19f2-4102-88f1-24abfd946742" class="">1 x Adafruit MPR121 Capacitive Touch Sensor QT</p><p id="0ee0e14c-245f-4220-a20d-4ce77151009b" class="">1 x Digital screen         </p><p id="0f09385f-bed4-439f-99d0-a2dd85a4108f" class="">5 x Alligator clip         </p><p id="80cff5fb-58d3-42d8-86d8-5fbb0892063d" class="">5 x SparkFun Qwiic Button - Green LED</p><p id="73a859e2-4833-4656-a919-681140cee6ee" class="">1 x 5V 2.5A Switching Power Supply with 20AWG MicroUSB Cable</p><p id="a68d2966-2c5a-480a-925b-941a70672b93" class="">SparkFun Qwiic Cables</p><p id="9d9dc230-1087-42dd-a96b-8d40ff5476ff" class="">Cardboards</p><p id="22609733-1f4a-4fa8-a009-5c99eafae251" class="">Color papers</p><p id="5e3bb681-2819-4c6b-9912-901c46ff761d" class="">Tapes</p><p id="471a9fa4-3db9-4368-a395-80f7b039fd57" class="">Copper Foil Tape</p><p id="de1a7a15-c2b7-4c10-8868-b77aa419fb28" class="">Tin foil</p></div></p><p id="7c9052b0-f3f6-40d8-9fa0-ec4f89662a5e" class="">
+</p><h1 id="2a33c5ca-9ff4-4107-bf93-4afe8922b3a8" class="">👩🏻‍🎨 Illustrator Design File</h1><p id="d649cfca-d813-4fc4-b25e-e06f3f1404bf" class="">
+</p><figure id="a30160f9-3f58-425f-90a2-eda9c0c2aeeb" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/layout-01.png"><img style="width:1920px" src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/layout-01.png"/></a></figure><figure id="5dcb528b-f9d4-4360-8616-4fd0fe400da9" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/layout-02.png"><img style="width:1920px" src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/layout-02.png"/></a></figure><figure id="10690b32-3d3e-4b5c-ab9a-eb3a5bd5cf59" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/layout-03.png"><img style="width:1920px" src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/layout-03.png"/></a></figure><figure id="9c68e13f-21a4-4ced-9ed9-b2cb0b7ee056" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/layout-04.png"><img style="width:1920px" src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/layout-04.png"/></a></figure><p id="d4173380-b655-4efa-b2bd-b1f05131d895" class="">
+</p><h1 id="c53cdf1d-8398-457c-af24-28ec41315480" class="">⚒️Assembly &amp; Step-By-Step Process</h1><hr id="d7e74066-cf50-4b51-b382-b2e8accf7a6e"/><p id="7cd13017-ced5-4bed-a2a6-4ce6e2a6aca4" class=""><strong>Step 1. After our team came up with the design of the Whack-a-Mole system, our team </strong></p><p id="bab8db8f-39bf-47bc-ace6-93b1dfb6e056" class="">
+</p><div id="0f91134b-e642-4efb-9bda-e36f8f9df444" class="column-list"><div id="0ba05010-7108-4ff6-8f0f-5c952bc7e441" style="width:33.333333333333336%" class="column"><figure id="4ef60182-19d6-45e3-9db9-b127b6d7c074" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8169.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8169.heic"/></a></figure></div><div id="12e5fe90-4b0d-4b2c-a595-4ae49048dc1d" style="width:33.333333333333336%" class="column"><figure id="fccc8338-da24-4788-8524-bf5ec6970cd7" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8170.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8170.heic"/></a></figure></div><div id="2de29dd9-bfdd-4b27-b98d-85855163896f" style="width:33.33333333333333%" class="column"><figure id="d2cd4157-630c-4371-a32d-5591cba502b5" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8171.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8171.heic"/></a></figure><figure id="23c3e0c2-a612-445f-a334-6a231ff7e5c5" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8172.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8172.heic"/></a></figure></div></div><ol type="1" id="a57c43c8-7531-4926-8949-6400e6d22a23" class="numbered-list" start="1"><li><strong><strong><strong><strong><strong><strong><strong><strong>Cyril : </strong></strong></strong></strong></strong></strong></strong></strong>Worked on the implementation of the BONUS time python file. </li></ol><ol type="1" id="f6659e18-5904-4047-b242-ad6c67eceb2a" class="numbered-list" start="2"><li><strong><strong><strong><strong><strong><strong><strong>James: </strong></strong></strong></strong></strong></strong></strong>Worked on the implementation of the green lights and the touch capacitor </li></ol><ol type="1" id="c1def9f5-1296-401b-8be6-1e10d1cac9fe" class="numbered-list" start="3"><li><strong>Heather: </strong>Worked on the implementation of connecting the pi to the server </li></ol><ol type="1" id="4858af85-e644-4b18-9564-49ea57a10913" class="numbered-list" start="4"><li><strong><strong><strong><strong><strong><strong>Grace: </strong></strong></strong></strong></strong></strong>Worked on the design and gathering materials. </li></ol><p id="618eb88e-cc5c-4177-9143-81986ce89506" class="">
+</p><p id="a176821f-0a71-4144-bf2a-0877c68028f2" class=""><strong><strong><strong><strong><strong><strong><strong><strong>Step 2: </strong></strong></strong></strong></strong></strong></strong></strong>After each implemented their part, we had to come together to merge the files and set up the MQTT and the server together. </p><p id="15155f04-037d-4ba9-9b97-77102a785293" class="">
+</p><p id="8f70cd2d-768c-4e64-9f55-071372edb11d" class=""><strong><strong><strong><strong><strong><strong><strong>Step 3: </strong></strong></strong></strong></strong></strong></strong>Next came the actual assembly of hardware. </p><figure id="bb58d93f-f325-4a86-8c18-ee5fbf4103cc" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8198.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8198.heic"/></a></figure><p id="e86a7073-4c6c-43bc-94f8-596e23fc2ed3" class="">After cutting up some colored paper for the Whack-A-Mole game signs </p><figure id="c2e22eae-6c29-42c9-b62b-605691edf25e" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8200.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8200.heic"/></a></figure><p id="04f85862-9344-4091-8563-512b643129f3" class="">Drilled some holes into the bottom cardboard —&gt; This is to let the green light buttons poke in</p><figure id="8e00b178-17e5-4ca5-bc71-135c73396fe7" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8201.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8201.heic"/></a></figure><p id="3e333783-e40c-4b04-8729-94df20d3514b" class="">Then the lights were all connected together with long pieces of wire </p><div id="cf8e064f-456c-4513-8ba1-28ee5f2b9e01" class="column-list"><div id="df000421-c2a8-461a-8ae8-11dc9c06baeb" style="width:50%" class="column"><figure id="a3b3f4ac-afa2-4cc0-8a66-f62e35a64090" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8202.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8202.heic"/></a></figure></div><div id="13a8fa3c-433f-44b7-a9e6-31c60dac6e38" style="width:50%" class="column"><figure id="42c54470-48ca-49f3-9183-f8b68e394e5a" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8203.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8203.heic"/></a></figure></div></div><p id="eba62d7a-7b9c-44ad-a183-29143d44129d" class="">The conductive tape was measured. The circles in the center was also cut out to fit the green lights. </p><figure id="4feb0dcf-c6cb-4628-86b6-4696560f483b" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8205.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8205.heic"/></a></figure><p id="5b865d4a-7149-43f6-bc32-caa15def372f" class="">Conductive tape was then pasted onto the bottom cardboard </p><figure id="a3907313-095a-47c7-8291-02cc27ba7569" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8204.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8204.heic"/></a></figure><p id="3b0d6290-1a55-4fe7-903c-a8312eb586e9" class="">The sign was pasted to the top cardboard. The bonus LED light stick was also pasted as well. </p><figure id="4612198f-649b-451e-9e26-baffdf6fbd60" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8206.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8206.heic"/></a></figure><p id="17b3a492-26d8-4606-828f-2a54171435e6" class="">Connect the alligator clips to the capacitor touch sensor </p><p id="989ad8ae-c4c3-4265-a0c2-9ae8f318fb71" class="">Connect the capacitor sensor to the pi and the LED light stick to the pi </p><p id="6825c53f-fb0b-413b-ab56-93c265fbd410" class="">
+</p><figure id="42a36931-c2cf-46d0-95d0-7bbd6fd8e1bd" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8207.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8207.heic"/></a></figure><p id="773a08d5-ea50-48f3-aac3-4291481189f6" class="">Tape the wires to the back of the cardboard </p><figure id="bbcb76ba-5dd3-4de3-88de-ae748884d06d" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8421.heic"><img src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8421.heic"/></a></figure><p id="06324647-be39-4770-a922-261e1580d526" class="">Finished Look</p><p id="4af32c53-e022-4ad2-9f33-abf70043b328" class="">When the script starts, the MQTT will start reading the score values</p><figure id="2adab2b9-5783-4019-9653-105b492b94a9" class="image"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8502.jpeg"><img style="width:2862px" src="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8502.jpeg"/></a></figure><p id="64842151-0087-42f5-93ab-e523c55908db" class="">Front end of server</p><h1 id="77070072-2095-42e6-818d-7969c8dde3fb" class="">👾Description of Code</h1><p id="e2e291d2-787a-4129-b3dc-c168ce15ad82" class="">
+</p><ul id="aa0c0dbf-04f2-4d69-8a03-1df113fce990" class="toggle"><li><details open=""><summary>LEDsystem.py</summary><pre id="a63817cc-ea96-410b-a5e8-d938d5fd33d9" class="code"><code>from __future__ import print_function
+import qwiic_led_stick
+import math
+import time
+import sys
+import board
+import digitalio
+import subprocess
+
+
+# buttons set up
+buttonA = digitalio.DigitalInOut(board.D23)
+buttonB = digitalio.DigitalInOut(board.D24)
+buttonA.switch_to_input()
+buttonB.switch_to_input()
+
+# parameters
+round = 0
+correct = 0
+wrong = 0
+
+# Fuction of rainbow effect
+def walking_rainbow(LED_stick, rainbow_length, LED_length, delay):
+    red_array = [None] * LED_length
+    blue_array = [None] * LED_length
+    green_array = [None] * LED_length
+
+    global round,correct,wrong
+
+    for j in range(0, rainbow_length):
+
+        for i in range(0, LED_length):
+            # There are n colors generated for the rainbow
+            # The value of n determins which color is generated at each pixel
+            n = i + 1 - j
+
+            # Loop n so that it is always between 1 and rainbow_length
+            if n &lt;= 0:
+                n = n + rainbow_length
+
+            # The nth color is between red and yellow
+            if n &lt;= math.floor(rainbow_length / 6):
+                red_array[i] = 255
+                green_array[i] = int(math.floor(6 * 255 / rainbow_length * n))
+                blue_array[i] = 0
+            
+            # The nth color is between yellow and green
+            elif n &lt;= math.floor(rainbow_length / 3):
+                red_array[i] = int(math.floor(510 - 6 * 255 / rainbow_length * n))
+                green_array[i] = 255
+                blue_array[i] = 0
+            
+            # The nth color is between green and cyan
+            elif n &lt;= math.floor(rainbow_length / 2):
+                red_array[i] = 0
+                green_array[i] = 255
+                blue_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 510))
+            
+            # The nth color is between blue and magenta
+            elif n &lt;= math.floor(5 * rainbow_length / 6):
+                red_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 1020))
+                green_array[i] = 0
+                blue_array[i] = 255
+            
+            # The nth color is between magenta and red
+            else:
+                red_array[i] = 255
+                green_array[i] = 0
+                blue_array[i] = int(math.floor(1530 - (6 *255 / rainbow_length * n)))
+
+        # Set all the LEDs to the color values accordig to the arrays
+        LED_stick.set_all_LED_unique_color(red_array, green_array, blue_array, LED_length)
+
+        if buttonB.value and not buttonA.value:  # just button A pressed Making correct
+            round += 1
+            correct += 2
+            print(correct)
+            time.sleep(0.1)
+
+        elif buttonA.value and not buttonB.value:  # just button B pressed Making wrong
+            round += 1
+            wrong += 1
+            print(wrong)
+            time.sleep(0.1)
+
+        time.sleep(delay)
+
+&quot;&quot;&quot;
+For this LED-scoring system, we want to make such effect:
+Normal Mode:
+After the player start the game, each time the player hit a mole, a Green LED will light up. If the player miss a mole, a Red
+LED will light up. The order is from left to right.
+Crazy Time:
+When User hit 10/10 moles, the system will get into the Crazy time so that all points are x5 times, 
+and the LED will show rainbow effect.
+&quot;&quot;&quot;
+
+def run_example():
+    print(&quot;\nSparkFun Qwiic LED Stick Example 1&quot;)
+    my_stick = qwiic_led_stick.QwiicLEDStick()
+
+    if my_stick.begin() == False:
+        print(&quot;\nThe Qwiic LED Stick isn&#x27;t connected to the sytsem. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    print(&quot;\nLED Stick ready!&quot;)
+    
+    my_stick.set_all_LED_brightness(1)
+    global round,correct,wrong
+    while True:
+        my_stick.LED_off()
+
+        while round &lt; 10:
+            if buttonB.value and not buttonA.value:  # just button A pressed Making correct
+                round += 1
+                my_stick.set_single_LED_color(round, 0, 255, 0)
+                
+                correct += 1
+                time.sleep(0.1)
+
+            elif buttonA.value and not buttonB.value:  # just button B pressed Making wrong
+                round += 1
+                my_stick.set_single_LED_color(round, 255, 0, 0)
+                round = 0
+
+                wrong += 1
+                time.sleep(0.3)
+                my_stick.LED_off()
+
+            time.sleep(0.1)
+        while 10 &lt;= correct and round &lt; 15:
+            walking_rainbow(my_stick, 20, 10, 0.1)
+        
+        round = 0
+            
+        #else:
+        #    my_stick.set_all_LED_color(255, 0, 0)
+
+
+        my_stick.LED_off()
+        time.sleep(1)
+
+if __name__ == &#x27;__main__&#x27;:
+    try:
+        run_example()
+    except (KeyboardInterrupt, SystemExit) as exErr:
+        print(&quot;\nEnding Example 1&quot;)
+        sys.exit(0)</code></pre></details></li></ul><ul id="cebcfd1c-9cf2-40be-8e7d-3eba6658612a" class="toggle"><li><details open=""><summary>LEDsystem_MQTT.py</summary><pre id="7ae5ba27-dcc4-42dd-b7c1-8443926393f8" class="code"><code>from __future__ import print_function
+import qwiic_led_stick
+import math
+import time
+import sys
+import board
+import digitalio
+import subprocess
+
+import paho.mqtt.client as mqtt
+import uuid
+
+# MQTT setup
+
+# Every client needs a random ID
+client = mqtt.Client(str(uuid.uuid1()))
+# configure network encryption etc
+client.tls_set()
+# this is the username and pw we have setup for the class
+client.username_pw_set(&#x27;idd&#x27;, &#x27;device@theFarm&#x27;)
+
+#connect to the broker
+client.connect(
+    &#x27;farlab.infosci.cornell.edu&#x27;,
+    port=8883)
+
+topic = &#x27;0AIDD/testing&#x27;
+
+# buttons set up
+buttonA = digitalio.DigitalInOut(board.D23)
+buttonB = digitalio.DigitalInOut(board.D24)
+buttonA.switch_to_input()
+buttonB.switch_to_input()
+
+# parameters
+round = 0
+correct = 0
+wrong = 0
+
+# Fuction of rainbow effect
+def walking_rainbow(LED_stick, rainbow_length, LED_length, delay):
+    red_array = [None] * LED_length
+    blue_array = [None] * LED_length
+    green_array = [None] * LED_length
+
+    global round,correct,wrong
+
+    for j in range(0, rainbow_length):
+
+        for i in range(0, LED_length):
+            # There are n colors generated for the rainbow
+            # The value of n determins which color is generated at each pixel
+            n = i + 1 - j
+
+            # Loop n so that it is always between 1 and rainbow_length
+            if n &lt;= 0:
+                n = n + rainbow_length
+
+            # The nth color is between red and yellow
+            if n &lt;= math.floor(rainbow_length / 6):
+                red_array[i] = 255
+                green_array[i] = int(math.floor(6 * 255 / rainbow_length * n))
+                blue_array[i] = 0
+            
+            # The nth color is between yellow and green
+            elif n &lt;= math.floor(rainbow_length / 3):
+                red_array[i] = int(math.floor(510 - 6 * 255 / rainbow_length * n))
+                green_array[i] = 255
+                blue_array[i] = 0
+            
+            # The nth color is between green and cyan
+            elif n &lt;= math.floor(rainbow_length / 2):
+                red_array[i] = 0
+                green_array[i] = 255
+                blue_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 510))
+            
+            # The nth color is between blue and magenta
+            elif n &lt;= math.floor(5 * rainbow_length / 6):
+                red_array[i] = int(math.floor(6 * 255 / rainbow_length * n - 1020))
+                green_array[i] = 0
+                blue_array[i] = 255
+            
+            # The nth color is between magenta and red
+            else:
+                red_array[i] = 255
+                green_array[i] = 0
+                blue_array[i] = int(math.floor(1530 - (6 *255 / rainbow_length * n)))
+
+        # Set all the LEDs to the color values accordig to the arrays
+        LED_stick.set_all_LED_unique_color(red_array, green_array, blue_array, LED_length)
+
+        if buttonB.value and not buttonA.value:  # just button A pressed Making correct
+            round += 1
+            correct += 2
+            client.publish(topic, correct)
+            print(correct)
+            time.sleep(0.1)
+
+        elif buttonA.value and not buttonB.value:  # just button B pressed Making wrong
+            round += 1
+            wrong += 1
+            print(wrong)
+            time.sleep(0.1)
+
+        time.sleep(delay)
+
+&quot;&quot;&quot;
+For this LED-scoring system, we want to make such effect:
+Normal Mode:
+After the player start the game, each time the player hit a mole, a Green LED will light up. If the player miss a mole, a Red
+LED will light up. The order is from left to right.
+Crazy Time:
+When User hit 10/10 moles, the system will get into the Crazy time so that all points are x5 times, 
+and the LED will show rainbow effect.
+&quot;&quot;&quot;
+
+def run_example():
+    print(&quot;\nSparkFun Qwiic LED Stick Example 1&quot;)
+    my_stick = qwiic_led_stick.QwiicLEDStick()
+
+    if my_stick.begin() == False:
+        print(&quot;\nThe Qwiic LED Stick isn&#x27;t connected to the sytsem. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    print(&quot;\nLED Stick ready!&quot;)
+    
+    my_stick.set_all_LED_brightness(1)
+    global round,correct,wrong
+    while True:
+        my_stick.LED_off()
+
+        while round &lt; 10:
+            if buttonB.value and not buttonA.value:  # just button A pressed Making correct
+                round += 1
+                my_stick.set_single_LED_color(round, 0, 255, 0)
+                
+                correct += 1
+                client.publish(topic, correct)
+                time.sleep(0.1)
+
+            elif buttonA.value and not buttonB.value:  # just button B pressed Making wrong
+                round += 1
+                my_stick.set_single_LED_color(round, 255, 0, 0)
+                round = 0
+
+                wrong += 1
+                time.sleep(0.3)
+                my_stick.LED_off()
+
+            time.sleep(0.1)
+
+        #while 10 &lt;= correct and round &lt; 15:
+        #    walking_rainbow(my_stick, 20, 10, 0.1)
+        t_end = time.time() + 5
+        while time.time() &lt; t_end:
+            walking_rainbow(my_stick, 20, 10, 0.1)
+
+        round = 0
+            
+        #else:
+        #    my_stick.set_all_LED_color(255, 0, 0)
+
+
+        my_stick.LED_off()
+        time.sleep(1)
+
+if __name__ == &#x27;__main__&#x27;:
+    try:
+        run_example()
+    except (KeyboardInterrupt, SystemExit) as exErr:
+        print(&quot;\nEnding Example 1&quot;)
+        sys.exit(0)</code></pre></details></li></ul><ul id="017cefae-a21c-4cab-bc65-672942c150c3" class="toggle"><li><details open=""><summary>config_button.py</summary><pre id="60c0dfbd-ef35-43e9-acf4-247e09033ff4" class="code"><code>from __future__ import print_function
+import qwiic_i2c
+import qwiic_button
+import time
+import sys
+
+def run_example():
+
+    print(&quot;\nSparkFun Qwiic Button Example 6&quot;)
+    my_button = qwiic_button.QwiicButton()
+
+    if my_button.begin() == False:
+        print(&quot;\nThe Qwiic Button isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+        
+    print(&quot;\nButton ready!&quot;)
+
+    print(&quot;\nEnter a new I2C address for the Qwiic Button to use.&quot;)
+    print(&quot;\nDon&#x27;t use the 0x prefix. For instance, if you wanted to&quot;)
+    print(&quot;\nchange the address to 0x5B, you would type 5B and hit enter.&quot;)
+
+    new_address = input(&quot;\nNew Address: &quot;)
+    new_address = int(new_address, 16)
+
+    # Check if the user entered a valid address
+    if new_address &gt; 0x08 and new_address &lt; 0x77:
+        print(&quot;\nCharacters received and new address valid!&quot;)
+        print(&quot;\nAttempting to set Qwiic Button address...&quot;)
+
+        my_button.set_I2C_address(new_address)
+        print(&quot;\nAddress successfully changed!&quot;)
+        # Check that the Qwiic Button acknowledges on the new address
+        time.sleep(0.02)
+        if my_button.begin() == False:
+            print(&quot;\nThe Qwiic Button isn&#x27;t connected to the system. Please check your connection&quot;, \
+                file=sys.stderr)
+            
+        else:
+            print(&quot;\nButton acknowledged on new address!&quot;)
+            
+    else:
+        print(&quot;\nAddress entered not a valid I2C address&quot;)
+
+if __name__ == &#x27;__main__&#x27;:
+    try:
+        run_example()
+    except (KeyboardInterrupt, SystemExit) as exErr:
+        print(&quot;\nEnding Example 6&quot;)
+        sys.exit(0)</code></pre></details></li></ul><ul id="affcd64c-9df3-4d8c-8dd8-88cb8ff8e340" class="toggle"><li><details open=""><summary>single.py</summary><pre id="440ef069-f5d3-4612-a208-8e57cec1d44e" class="code"><code>from __future__ import print_function
+import qwiic_button
+import time
+import sys
+
+brightness = 100
+
+def run_example():
+
+    print(&quot;\nSparkFun Qwiic Button Example 2&quot;)
+    my_button = qwiic_button.QwiicButton(0x5D)
+
+    if my_button.begin() == False:
+        print(&quot;\nThe Qwiic Button isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    
+    print(&quot;\nButton ready!&quot;)
+
+    while True:
+
+        if my_button.is_button_pressed() == True:
+            print(&quot;\nThe button is pressed!&quot;)
+            my_button.LED_on(brightness)
+        
+        else:
+            print(&quot;\nThe button is not pressed.&quot;)
+            my_button.LED_off()
+        
+        time.sleep(0.02)
+    
+if __name__ == &#x27;__main__&#x27;:
+    try:
+        run_example()
+    except (KeyboardInterrupt, SystemExit) as exErr:
+        print(&quot;\nEnding Example 2&quot;)
+        sys.exit(0)</code></pre></details></li></ul><ul id="57d92dcc-e81f-40ac-b0ee-e7fee9471a96" class="toggle"><li><details open=""><summary>test_button.py</summary><pre id="ecb99046-24b8-4f37-b5f4-3d55f4c0bf47" class="code"><code>from __future__ import print_function
+import qwiic_i2c
+import qwiic_button
+import time
+import sys
+
+def run_example():
+
+    print(&quot;\nSparkFun Qwiic Button Example 7&quot;)
+    my_button0 = qwiic_button.QwiicButton()
+    my_button1 = qwiic_button.QwiicButton(0x5F)
+    my_button2 = qwiic_button.QwiicButton(0x5E)
+    my_button3 = qwiic_button.QwiicButton(0x5D)
+    my_button4 = qwiic_button.QwiicButton(0x5C)
+
+    if my_button0.begin() == False:
+        print(&quot;\nThe Qwiic Button 0 isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    if my_button1.begin() == False:
+        print(&quot;\nThe Qwiic Button 1 isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    if my_button2.begin() == False:
+        print(&quot;\nThe Qwiic Button 2 isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    if my_button3.begin() == False:
+        print(&quot;\nThe Qwiic Button 3 isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    if my_button4.begin() == False:
+        print(&quot;\nThe Qwiic Button 4 isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    
+    print(&quot;\nButton&#x27;s ready!&quot;)
+
+    while 1:
+
+        # Check if button 0 is pressed
+        if my_button0.is_button_pressed() == True:
+            print(&quot;\nButton 0 is pressed!&quot;)
+        
+        # Check if button 1 is pressed
+        if my_button1.is_button_pressed() == True:
+            print(&quot;\nButton 1 is pressed!&quot;)
+        
+        # Check if button2 is pressed
+        if my_button2.is_button_pressed() == True:
+            print(&quot;\nButton 2 is pressed!&quot;)
+        
+        # Check if button3 is pressed
+        if my_button3.is_button_pressed() == True:
+            print(&quot;\nButton 3 is pressed!&quot;)
+        
+        # Check if button4 is pressed
+        if my_button4.is_button_pressed() == True:
+            print(&quot;\nButton 4 is pressed!&quot;)
+        
+        time.sleep(0.02)    # Don&#x27;t hammer too hard on the I2C bus
+
+if __name__ == &#x27;__main__&#x27;:
+    try:
+        run_example()
+    except (KeyboardInterrupt, SystemExit) as exErr:
+        print(&quot;\nEnding Example 7&quot;)
+        sys.exit(0)</code></pre></details></li></ul><ul id="db54aa30-3528-49d6-b87d-b77626a6cdf4" class="toggle"><li><details open=""><summary>whackamole.py</summary><pre id="a3b8f2d3-f82a-49f9-90f9-80646207abff" class="code"><code>from __future__ import print_function
+import qwiic_i2c
+import qwiic_button
+import sys
+import random
+import time
+import board
+import busio
+import adafruit_mpr121
+import qwiic_led_stick
+import math
+import digitalio
+import subprocess
+
+import paho.mqtt.client as mqtt
+import uuid
+
+# MQTT setup
+
+# Every client needs a random ID
+client = mqtt.Client(transport=&quot;websockets&quot;)
+# configure network encryption etc
+#client.tls_set()
+# this is the username and pw we have setup for the class
+#client.username_pw_set(&#x27;idd&#x27;, &#x27;device@theFarm&#x27;)
+
+#connect to the broker
+client.connect(
+    #&#x27;10.56.131.217&#x27;, # Tata
+    &#x27;100.64.10.115&#x27;, # House
+    port=9001)
+
+topic = &#x27;IDD/Whackamole&#x27;
+
+# Configure Buttons
+print(&quot;\nConfig Buttons&quot;)
+my_button0 = qwiic_button.QwiicButton()
+my_button1 = qwiic_button.QwiicButton(0x5F)
+my_button2 = qwiic_button.QwiicButton(0x5E)
+my_button3 = qwiic_button.QwiicButton(0x5D)
+my_button4 = qwiic_button.QwiicButton(0x5C)
+buttons = [my_button0, my_button1, my_button2, my_button3, my_button4]
+
+# Configure Capacitive Touch
+print(&quot;\nConfig Capacitive Touch&quot;)
+i2c = busio.I2C(board.SCL, board.SDA)
+mpr121 = adafruit_mpr121.MPR121(i2c)
+print(&quot;\nCapacitive Touch Ready&quot;)
+
+# Configure
+print(&quot;\nSparkFun Qwiic LED Stick Example 1&quot;)
+my_stick = qwiic_led_stick.QwiicLEDStick()
+
+if my_stick.begin() == False:
+    print(&quot;\nThe Qwiic LED Stick isn&#x27;t connected to the sytsem. Please check your connection&quot;, \
+        file=sys.stderr)
+    sys.exit(0)
+print(&quot;\nLED Stick ready!&quot;)
+time.sleep(0.2)
+my_stick.set_all_LED_brightness(1)
+time.sleep(0.2)
+my_stick.LED_off()
+time.sleep(0.2)
+
+# Fuction of gradient effect
+def color_gradient(LED_stick, r1, b1, g1, r2, g2, b2, LED_length):
+    # Subtract 1 from LED_length because there is one less transition color
+    # than length of LEDs
+    # LED_length = LED_length - 1
+    # Calculate the slope of the line between r/g/b1 and r/g/b2
+    r_slope = (r2 - r1) / LED_length
+    g_slope = (g2 - g1) / LED_length
+    b_slope = (b2 - b1) / LED_length
+    # Set the color for each pixel on your LED Stick
+    for i in range(0, LED_length):
+        # Evaluate the ith point on the line between r/g/b1 and r/g/b2
+        r_value = r1 + r_slope * i
+        g_value = g1 + g_slope * i
+        b_value = b1 + b_slope * i
+        # Set the pixel to the calculated color
+        time.sleep(0.02)
+        LED_stick.set_single_LED_color(i + 1, int(r_value), int(g_value), int(b_value))
+        time.sleep(0.02)
+
+def run_gradient(my_stick):
+
+    # print(&quot;\nSparkFun Qwiic LED Stick Example 6&quot;)
+    # my_stick = qwiic_led_stick.QwiicLEDStick()
+
+    # if my_stick.begin() == False:
+    #     print(&quot;\nThe Qwiic LED Stick isn&#x27;t connected to the system. Please check your connection&quot;, \
+    #         file=sys.stderr)
+    #     return
+    # print(&quot;\nLED Stick ready!&quot;)
+
+    # Set the colors for the gradient
+    # These are for the first color
+    r1 = random.randint(0, 255)
+    g1 = random.randint(0, 255)
+    b1 = random.randint(0, 255)
+    # These are for the last color    
+    r2 = random.randint(0, 255)
+    g2 = random.randint(0, 255)
+    b2 = random.randint(0, 255)
+
+    color_gradient(my_stick, r1, g1, b1, r2, g2, b2, 10)
+
+def run_whack():
+
+    # parameters
+    round = 0
+    correct = 0
+    wrong = 0
+
+    if my_button0.begin() == False:
+        print(&quot;\nThe Qwiic Button 0 isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    if my_button1.begin() == False:
+        print(&quot;\nThe Qwiic Button 1 isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    if my_button2.begin() == False:
+        print(&quot;\nThe Qwiic Button 2 isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    if my_button3.begin() == False:
+        print(&quot;\nThe Qwiic Button 3 isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+    if my_button4.begin() == False:
+        print(&quot;\nThe Qwiic Button 4 isn&#x27;t connected to the system. Please check your connection&quot;, \
+            file=sys.stderr)
+        return
+
+    print(&quot;\nButtons ready!&quot;)
+
+    out = []
+    brightness = 100
+
+    nxt1 = 0.0
+    pushTime = time.time() + random.randrange(1, 4.0)
+    popTime = pushTime + random.randrange(1, 3.0)
+    prev = -1
+    while True:
+        #time.sleep(0.02)
+        # Generate next mole to pop up
+        num = random.randint(0,2)
+        while num == prev:
+            num = random.randint(0,2)
+        if len(out) &lt; 2:
+            popTime = pushTime + random.randrange(1, 4.0) 
+            if pushTime &lt; time.time():
+                pushTime = time.time() + random.randrange(1, 3.0)
+                out.append(num)
+        
+        # Bring mole down if it wasn&#x27;t whacked
+        if popTime &lt; time.time():
+            out.pop(0)
+
+        # Visualize moles
+        #arr = [0, 0, 0, 0, 0]
+        #for x in out:
+        #    arr[x] = 1
+        
+        #time.sleep(0.02)    # Don&#x27;t hammer too hard on the I2C bus
+
+        # Check if button 0 is pressed
+        if 0 in out:
+            # print(&quot;\nButton 0 is pressed!&quot;)
+            my_button0.LED_on(brightness)
+        else:
+            my_button0.LED_off()
+
+        # Check if button1 is pressed
+        if 1 in out:
+            # print(&quot;\nButton 1 is pressed!&quot;)
+            my_button1.LED_on(brightness)
+        else:
+            my_button1.LED_off()
+
+        # Check if button2 is pressed
+        if 2 in out:
+            # print(&quot;\nButton 2 is pressed!&quot;)
+            my_button2.LED_on(brightness)
+        else:
+            my_button2.LED_off()
+
+        # Check if button3 is pressed
+        if 3 in out:
+            # print(&quot;\nButton 3 is pressed!&quot;)
+            my_button3.LED_on(brightness)
+        else:
+            my_button3.LED_off()
+        
+        # Check if button4 is pressed
+        if 4 in out:
+            # print(&quot;\nButton 4 is pressed!&quot;)
+            my_button4.LED_on(brightness)
+        else:
+            my_button4.LED_off()
+
+        time.sleep(0.02)    # Don&#x27;t hammer too hard on the I2C bus
+
+        prev = num
+        
+        #print(arr)
+
+        # Check for whack
+        # press = int(input())
+        # if press in out:
+        #     out.pop(out.index(press))
+        #     print(&quot;Whack!&quot;)
+        for i in range(5):
+            time.sleep(0.02)
+            if round == 0:
+                my_stick.LED_off()
+                wrong = 0
+            if mpr121[i].value:
+                if i in out:
+                    prev = out.pop(out.index(i))
+                    #val = f&quot;Mole {i} whacked!&quot;
+                    #print(val)
+                    buttons[i].LED_off()
+                    # walking_rainbow()
+                    round += 1
+                    #print(round)
+                    if round &lt; 10:
+                        correct += 1
+                        time.sleep(0.02)
+                        my_stick.set_single_LED_color(round, 0, 255, 0)
+                        client.publish(topic, correct)
+                        # time.sleep(0.01)
+                    elif wrong == 0:
+                        correct += 2
+                        #time.sleep(0.02)
+                        run_gradient(my_stick)
+                        client.publish(topic, correct)
+                        # time.sleep(0.01)
+                else:
+                    round += 1
+                    time.sleep(0.02)
+                    my_stick.set_single_LED_color(round, 255, 0, 0)
+                    # time.sleep(0.01)
+                    #round = 0
+
+                    wrong += 1
+                    # time.sleep(0.3)
+                    #my_stick.LED_off()
+                if wrong &gt; 0:
+                    if round &gt; 9:
+                        round = 0
+                    
+                # client.publish(topic, val)
+            #time.sleep(0.02)
+
+        #my_stick.LED_off()
+        #time.sleep(0.1)
+
+if __name__ == &#x27;__main__&#x27;:
+    try:
+        run_whack()
+    except (KeyboardInterrupt, SystemExit) as exErr:
+        print(&quot;\nEnding Whackamole&quot;)
+        for button in buttons:
+            time.sleep(0.1)
+            button.LED_off()
+        time.sleep(0.2)
+        my_stick.LED_off()
+        sys.exit(0)</code></pre></details></li></ul><ul id="08e63567-00a4-44f8-b3bb-e3146c2319d0" class="toggle"><li><details open=""><summary>demo.js (server)</summary><pre id="cd5bb14c-f605-4d6a-8584-cbe43a7507d8" class="code"><code>// Called after form input is processed
+function startConnect() {
+    // Generate a random client ID
+    // clientID = &quot;clientID-&quot; + parseInt(Math.random() * 100);
+    clientID = &quot;mqtt-explorer-b5317878&quot;;
+    // Fetch the hostname/IP address and port number from the form
+    // host = document.getElementById(&quot;host&quot;).value;
+    host = &#x27;10.56.131.217&#x27;;
+    // port = document.getElementById(&quot;port&quot;).value;
+    port = &#x27;9001&#x27;;
+    // path = &#x27;/mqtt&#x27;;
+    // Print output for the user in the messages div
+    // document.getElementById(&quot;messages&quot;).innerHTML += &#x27;&lt;span&gt;Connecting to: &#x27; + host + &#x27; on port: &#x27; + port + &#x27;&lt;/span&gt;&lt;br/&gt;&#x27;;
+    // document.getElementById(&quot;messages&quot;).innerHTML += &#x27;&lt;span&gt;Using the following client value: &#x27; + clientID + &#x27;&lt;/span&gt;&lt;br/&gt;&#x27;;
+
+    // Initialize new Paho client connection
+    client = new Paho.MQTT.Client(host, Number(port), clientID);
+
+    // Set callback handlers
+    client.onConnectionLost = onConnectionLost;
+    client.onMessageArrived = onMessageArrived;
+
+
+    // Connect the client, if successful, call onConnect function
+    client.connect({
+        onSuccess: onConnect,
+        // userName: &#x27;idd&#x27;,
+        // password: &#x27;device@theFarm&#x27;,
+    });
+}
+
+// Called when the client connects
+function onConnect() {
+    // Fetch the MQTT topic from the form
+    // topic = document.getElementById(&quot;topic&quot;).value;
+    topic = &#x27;#&#x27;;
+    // Print output for the user in the messages div
+    // document.getElementById(&quot;messages&quot;).innerHTML += &#x27;&lt;span&gt;Subscribing to: &#x27; + topic + &#x27;&lt;/span&gt;&lt;br/&gt;&#x27;;
+    // document.getElementById(&quot;messages&quot;).innerHTML += &#x27;&lt;span&gt;Subscribing to: &#x27; + &#x27;&lt;/span&gt;&lt;br/&gt;&#x27;;
+    // Subscribe to the requested topic
+    client.subscribe(topic);
+}
+
+// Called when the client loses its connection
+function onConnectionLost(responseObject) {
+    console.log(&quot;onConnectionLost: Connection Lost&quot;);
+    if (responseObject.errorCode !== 0) {
+        console.log(&quot;onConnectionLost: &quot; + responseObject.errorMessage);
+    }
+}
+
+// Called when a message arrives
+function onMessageArrived(message) {
+    console.log(&quot;onMessageArrived: &quot; + message.payloadString);
+    // document.getElementById(&quot;messages&quot;).innerHTML += &#x27;&lt;span&gt;Topic: &#x27; + message.destinationName + &#x27;  | &#x27; + message.payloadString + &#x27;&lt;/span&gt;&lt;br/&gt;&#x27;;
+    document.getElementById(&#x27;score&#x27;).innerHTML = message.payloadString
+    updateScroll(); // Scroll to bottom of window
+}
+
+// Called when the disconnection button is pressed
+function startDisconnect() {
+    client.disconnect();
+    document.getElementById(&quot;messages&quot;).innerHTML += &#x27;&lt;span&gt;Disconnected&lt;/span&gt;&lt;br/&gt;&#x27;;
+    updateScroll(); // Scroll to bottom of window
+}
+
+// Updates #messages div to auto-scroll
+function updateScroll() {
+    var element = document.getElementById(&quot;messages&quot;);
+    element.scrollTop = element.scrollHeight;</code></pre></details></li></ul><h1 id="ca61be63-b291-4582-b9c7-8f8def186882" class="">⚖️ Video Design </h1><p id="7d639a62-2a26-4b46-9a2c-4bbc6a4c7e2b" class="">
+</p><figure id="e7dd72f2-1ba1-438c-82cd-14d42d63f032"><div class="source"><a href="WhackAMole/Whack-a-Mole%209a7a0d697a254b23b52a1e505a3ad66f/IMG_8060.mov">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b54eaf3d-68c3-440a-a098-f3f1e97aaad4/IMG_8060.mov</a></div></figure></div></article></body></html>
